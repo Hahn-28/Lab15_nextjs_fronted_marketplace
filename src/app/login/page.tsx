@@ -37,6 +37,7 @@ export default function LoginPage() {
         Cookies.set("role", data.user.role);
         Cookies.set("username", data.user.username);
         router.push("/products");
+        router.refresh();
       } else {
         setError(data.message || "Error al iniciar sesión");
       }

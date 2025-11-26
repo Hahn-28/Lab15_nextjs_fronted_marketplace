@@ -6,7 +6,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function getProduct(id: string): Promise<Product | null> {
   try {
-    const res = await fetch(`${API_URL}api/products/${id}`, {
+    const res = await fetch(`${API_URL}/api/products/${id}`, {
       cache: 'no-store',
     });
     

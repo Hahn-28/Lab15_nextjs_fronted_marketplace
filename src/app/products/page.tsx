@@ -6,8 +6,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 async function getProducts(categoryId?: string): Promise<Product[]> {
   try {
     const url = categoryId 
-      ? `${API_URL}api/products?categoryId=${categoryId}`
-      : `${API_URL}api/products`;
+      ? `${API_URL}/api/products?categoryId=${categoryId}`
+      : `${API_URL}/api/products`;
       
     const res = await fetch(url, {
       cache: 'no-store',
@@ -25,7 +25,7 @@ async function getProducts(categoryId?: string): Promise<Product[]> {
 
 async function getCategories(): Promise<Category[]> {
   try {
-    const res = await fetch(`${API_URL}api/categories`, {
+    const res = await fetch(`${API_URL}/api/categories`, {
       cache: 'no-store',
     });
     
