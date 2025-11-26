@@ -2,24 +2,39 @@
 
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState<{
     username: string;
     role: string;
   } | null>(null);
 
-  useEffect(() => {
+  // Función para leer cookies y actualizar el estado del usuario
+  const syncUserFromCookies = () => {
     const token = Cookies.get("token");
     const role = Cookies.get("role");
     const username = Cookies.get("username");
-
     if (token && role && username) {
       setUser({ username, role });
+    } else {
+      setUser(null);
     }
+  };
+
+  // Al montar y cuando cambie la ruta, re-lee las cookies
+  useEffect(() => {
+    syncUserFromCookies();
+  }, [pathname]);
+
+  // Escucha un evento global para cambios de autenticación (login/registro)
+  useEffect(() => {
+    const handler = () => syncUserFromCookies();
+    window.addEventListener("auth-changed", handler);
+    return () => window.removeEventListener("auth-changed", handler);
   }, []);
 
   const handleLogout = () => {
