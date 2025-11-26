@@ -2,11 +2,11 @@ import { ApiResponse, Product } from '@/types/product';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function getProduct(id: string): Promise<Product | null> {
   try {
-    const res = await fetch(`${API_URL}/products/${id}`, {
+    const res = await fetch(`${API_URL}api/products/${id}`, {
       cache: 'no-store',
     });
     

@@ -1,13 +1,13 @@
 import { ApiResponse, Category, Product } from '@/types/product';
 import Link from 'next/link';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function getProducts(categoryId?: string): Promise<Product[]> {
   try {
     const url = categoryId 
-      ? `${API_URL}/products?categoryId=${categoryId}`
-      : `${API_URL}/products`;
+      ? `${API_URL}api/products?categoryId=${categoryId}`
+      : `${API_URL}api/products`;
       
     const res = await fetch(url, {
       cache: 'no-store',
@@ -25,7 +25,7 @@ async function getProducts(categoryId?: string): Promise<Product[]> {
 
 async function getCategories(): Promise<Category[]> {
   try {
-    const res = await fetch(`${API_URL}/categories`, {
+    const res = await fetch(`${API_URL}api/categories`, {
       cache: 'no-store',
     });
     

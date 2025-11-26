@@ -11,12 +11,18 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const router = useRouter();
 
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
     try {
-      const res = await fetch("http://localhost:3001/api/auth/login", {
+      if (!apiBaseUrl) {
+        throw new Error("API base URL no configurada (NEXT_PUBLIC_API_URL)");
+      }
+
+      const res = await fetch(`${apiBaseUrl}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,7 +41,9 @@ export default function LoginPage() {
         setError(data.message || "Error al iniciar sesión");
       }
     } catch (err) {
-      setError("Error de conexión");
+      setError(
+        err instanceof Error ? err.message : "Error de conexión"
+      );
     }
   };
 

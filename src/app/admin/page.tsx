@@ -3,7 +3,7 @@
 import { ApiResponse, Product } from '@/types/product';
 import { useEffect, useState } from 'react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -21,7 +21,7 @@ export default function AdminPage() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch(`${API_URL}/products`);
+      const res = await fetch(`${API_URL}api/products`);
       const data: ApiResponse<Product[]> = await res.json();
       if (data.success) setProducts(data.data);
     } catch (error) {
@@ -34,8 +34,8 @@ export default function AdminPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const url = editingId
-      ? `${API_URL}/products/${editingId}`
-      : `${API_URL}/products`;
+      ? `${API_URL}api/products/${editingId}`
+      : `${API_URL}api/products`;
     const method = editingId ? 'PUT' : 'POST';
 
     try {
@@ -72,7 +72,7 @@ export default function AdminPage() {
     if (!confirm('¿Estás seguro?')) return;
 
     try {
-      const res = await fetch(`${API_URL}/products/${id}`, {
+      const res = await fetch(`${API_URL}api/products/${id}`, {
         method: 'DELETE',
       });
       if (res.ok) fetchProducts();

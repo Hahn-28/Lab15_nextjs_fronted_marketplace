@@ -10,12 +10,18 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const router = useRouter();
 
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
     try {
-      const res = await fetch("http://localhost:3001/api/auth/register", {
+      if (!apiBaseUrl) {
+        throw new Error("API base URL no configurada (NEXT_PUBLIC_API_URL)");
+      }
+
+      const res = await fetch(`${apiBaseUrl}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,7 +37,9 @@ export default function RegisterPage() {
         setError(data.message || "Error al registrarse");
       }
     } catch (err) {
-      setError("Error de conexión");
+      setError(
+        err instanceof Error ? err.message : "Error de conexión"
+      );
     }
   };
 
